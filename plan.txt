@@ -1,0 +1,25 @@
+Structure :
+    pages
+        wither or not create a page for each component (done)
+    routes
+        route for each page (later)
+    documntation load 
+        how ? 
+    unfinished component handling 
+
+    contnt logic
+        introductory information (done)
+        status infromation 
+            component status 
+                if it is not developed hilight with color and text 
+            component stats (done)
+                in the main introduction (done)
+                in the status bar (done)
+            recent modification 
+                date of every component 
+                date of whole system (done)
+  
+Style :
+    i18n n (done)
+    colors and look
+    font arabic 
