@@ -1,6 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wtbrowser/component_detail_page.dart';
 import 'package:wtflutter/metadata.dart';
+import 'package:wtflutter/wtflutter.dart';
 import 'localization.dart'; // Import localization helper
 
 class IntroductionPage extends StatelessWidget {
@@ -48,8 +51,9 @@ class IntroductionPage extends StatelessWidget {
                   style: const TextStyle(fontSize: 14, color: Colors.grey),
                   children: [
                     TextSpan(
-                      text:
-                          '${AppLocalizations.of(context).translate('total_components')}: ',
+                      text: AppLocalizations.of(
+                        context,
+                      ).translate('total_components'),
                     ),
                     TextSpan(
                       text: '${ComponentMetadata.totalComponents}\n',
@@ -59,8 +63,9 @@ class IntroductionPage extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text:
-                          '${AppLocalizations.of(context).translate('working_components')}: ',
+                      text: AppLocalizations.of(
+                        context,
+                      ).translate('working_components'),
                     ),
                     TextSpan(
                       text: '${ComponentMetadata.workingComponents}\n',
@@ -70,8 +75,9 @@ class IntroductionPage extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text:
-                          '${AppLocalizations.of(context).translate('failed_components')}: ',
+                      text: AppLocalizations.of(
+                        context,
+                      ).translate('failed_components'),
                     ),
                     TextSpan(
                       text: '${ComponentMetadata.failedComponents}\n',
@@ -81,8 +87,9 @@ class IntroductionPage extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text:
-                          '${AppLocalizations.of(context).translate('last_modified')}: ',
+                      text: AppLocalizations.of(
+                        context,
+                      ).translate('last_modified'),
                     ),
                     TextSpan(
                       text: ComponentMetadata.lastModifiedDate,
@@ -170,7 +177,7 @@ class IntroductionPage extends StatelessWidget {
 
               // 7. Version Information
               Text(
-                '${AppLocalizations.of(context).translate('version')}: 1.0.0',
+                '${AppLocalizations.of(context).translate('version')}: 0.1.0',
                 style: const TextStyle(
                   fontSize: 16,
                   fontStyle: FontStyle.italic,
@@ -196,17 +203,90 @@ class IntroductionPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              Text(
-                AppLocalizations.of(
-                  context,
-                ).translate('acknowledgments_message'),
-                style: const TextStyle(fontSize: 16),
+              RichText(
                 textAlign: TextAlign.center,
+                text: TextSpan(
+                  style: const TextStyle(fontSize: 16, color: Colors.black),
+                  children: [
+                    TextSpan(
+                      text: AppLocalizations.of(
+                        context,
+                      ).translate('introducing_components'),
+                    ),
+                    TextSpan(
+                      text: AppLocalizations.of(
+                        context,
+                      ).translate('social_login_form'),
+                      style: const TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                      recognizer:
+                          TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => const SocialLoginFormPage(),
+                                ),
+                              );
+                            },
+                    ),
+                    const TextSpan(text: ', '),
+                    TextSpan(
+                      text: AppLocalizations.of(
+                        context,
+                      ).translate('signup_form'),
+                      style: const TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                      recognizer:
+                          TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => const CustomSignupFormPage(),
+                                ),
+                              );
+                            },
+                    ),
+                    const TextSpan(text: ', and '),
+                    TextSpan(
+                      text: AppLocalizations.of(
+                        context,
+                      ).translate('login_form'),
+                      style: const TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                      recognizer:
+                          TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => ComponentDetailPage(
+                                        //  category: categoryName,
+                                        // type: entryName,
+                                        name: 'login_form',
+                                      ),
+                                ),
+                              );
+                            },
+                    ),
+                    const TextSpan(text: '.'),
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
 
               // 10. Call to Action
-              Text(
+              /*Text(
                 AppLocalizations.of(context).translate('call_to_action'),
                 style: const TextStyle(
                   fontSize: 18,
@@ -214,7 +294,7 @@ class IntroductionPage extends StatelessWidget {
                   color: Colors.blue,
                 ),
                 textAlign: TextAlign.center,
-              ),
+              ),*/
             ],
           ),
         ),

@@ -1,35 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'localization.dart';
 import 'tree_view_page.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final Locale initialLocale = await _loadLocaleFromStorage();
+  runApp(MyApp(initialLocale: initialLocale));
+}
+
+Future<Locale> _loadLocaleFromStorage() async {
+  final prefs = await SharedPreferences.getInstance();
+  final languageCode = prefs.getString('locale') ?? 'en'; // Default to English
+  return Locale(languageCode, '');
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  final Locale initialLocale;
+
+  const MyApp({super.key, required this.initialLocale});
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale _currentLocale = const Locale('ar', '');
+  late Locale _currentLocale;
 
-  void _switchLocale() {
+  @override
+  void initState() {
+    super.initState();
+    _currentLocale = widget.initialLocale;
+  }
+
+  Future<void> _switchLocale() async {
     setState(() {
       _currentLocale =
-          _currentLocale.languageCode == 'ar'
+          _currentLocale.languageCode == 'en'
               ? const Locale('ar', '')
               : const Locale('en', '');
     });
+
+    // Save the selected locale to SharedPreferences
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('locale', _currentLocale.languageCode);
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Component Browser',
+      title: 'WT Components Browser',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: 'Cairo', // Set Cairo as the default font

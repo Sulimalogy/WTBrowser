@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wtbrowser/component_detail_page.dart';
 import 'package:wtflutter/generate_structure.dart';
 import 'localization.dart';
@@ -17,15 +18,25 @@ class TreeViewPage extends StatefulWidget {
 }
 
 class _TreeViewPageState extends State<TreeViewPage> {
-  Locale _currentLocale = const Locale('ar', '');
+  Future<Locale> _loadLocaleFromStorage() async {
+    final prefs = await SharedPreferences.getInstance();
+    final languageCode =
+        prefs.getString('locale') ?? 'en'; // Default to English
+    return Locale(languageCode, '');
+  }
 
-  void _switchLocale() {
-    setState(() {
-      _currentLocale =
-          _currentLocale.languageCode == 'ar'
-              ? const Locale('ar', '')
-              : const Locale('en', '');
-    });
+  late Locale _currentLocale;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeLocale();
+  }
+
+  Future<void> _initializeLocale() async {
+    _currentLocale = await _loadLocaleFromStorage();
+    print('Current locale: ${_currentLocale.languageCode}');
+    setState(() {});
   }
 
   int _getTotalCount(Map<String, List<String>> categoryData) {
@@ -39,7 +50,7 @@ class _TreeViewPageState extends State<TreeViewPage> {
         children: [
           // Sidebar
           Container(
-            width: 250,
+            width: 300,
             color: Colors.blue.shade50,
             child: Column(
               children: [
@@ -54,8 +65,8 @@ class _TreeViewPageState extends State<TreeViewPage> {
                             // Display the SVG icon
                             SvgPicture.asset(
                               'icon.svg',
-                              height: 100, // Adjust the size as needed
-                              width: 100,
+                              height: 50, // Adjust the size as needed
+                              width: 50,
                             ),
                             const SizedBox(height: 20),
                             Text(
@@ -182,12 +193,6 @@ class _TreeViewPageState extends State<TreeViewPage> {
                       ExpansionTile(
                         // subtitle
                         // trailing
-                        childrenPadding: const EdgeInsets.only(
-                          left: 2,
-                          right: 2,
-                          bottom: 2,
-                        ),
-                        dense: true,
                         initiallyExpanded: true,
                         title: Text(
                           AppLocalizations.of(context).translate('components'),
@@ -298,7 +303,7 @@ class _TreeViewPageState extends State<TreeViewPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Text(
-                    'Version 1.0.0',
+                    'Version 0.1.0',
                     style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
                   ),
                 ),
@@ -317,9 +322,7 @@ class _TreeViewPageState extends State<TreeViewPage> {
                     ),
                     icon: const Icon(Icons.language),
                     label: Text(
-                      _currentLocale.languageCode == 'ar'
-                          ? 'العربية'
-                          : 'English',
+                      AppLocalizations.of(context).translate('switch_locale'),
                     ),
                   ),
                 ),
