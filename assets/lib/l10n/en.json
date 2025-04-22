@@ -246,5 +246,8 @@
   "travel_and_tourism": "Travel and Tourism",
   "real_estate": "Real Estate",
   "gaming": "Gaming",
-  "not_found": "No preview available for this component."
+  "not_found": "No preview available for this component.",
+  "switch_locale": "العربية",
+  "introducing_components": "recently added components: ",
+  "and": "and"
 }
