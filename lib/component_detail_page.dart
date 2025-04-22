@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:wtbrowser/component_registry.dart';
+import 'package:wtbrowser/localization.dart';
 
 class ComponentDetailPage extends StatelessWidget {
   final String name;
@@ -15,12 +16,18 @@ class ComponentDetailPage extends StatelessWidget {
         componentRegistry[name.replaceAll('.dart', '')];
 
     return Scaffold(
-      appBar: AppBar(title: Text(name)),
+      appBar: AppBar(
+        title: Text(
+          AppLocalizations.of(context).translate(name.replaceAll('.dart', '')),
+        ),
+      ),
       body:
           componentPageBuilder != null
               ? componentPageBuilder() // Load the component page
-              : const Center(
-                child: Text('No preview available for this component.'),
+              : Center(
+                child: Text(
+                  AppLocalizations.of(context).translate('not_found'),
+                ),
               ),
     );
   }
